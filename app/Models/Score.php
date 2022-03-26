@@ -14,5 +14,6 @@ class Score extends Model
     public function user(){
         return $this->hasOne(User::class,'id','user_id')->select('id','name');
     }
+   
 
 }

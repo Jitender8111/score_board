@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Database\Eloquent\Model;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -44,6 +44,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     // public function score(){
-    //     return $this->hasMany(Score::class,'user_id','id')->select('id','user_id','created_at','updated_at',DB::raw('count(score)'));
+    //     return $this->hasMany(Score::class,'user_id','id');
     // }
+    
 }
+
