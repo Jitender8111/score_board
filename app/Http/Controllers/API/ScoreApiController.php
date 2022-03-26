@@ -14,23 +14,9 @@ use Illuminate\Database\Eloquent\Builder;
 class ScoreApiController extends Controller
 {
     public function getScore(){
-    
-     $users = User::all();
-     $leader_board =[];
-     $data=[];
-     foreach ($users as $user) {
-        $total_score =  Score::where('user_id',$user->id)->sum('score');
-        $score = Score::where('user_id',$user->id)->select('id','user_id','created_at','updated_at')->first();  
-        
-     // now set all records in array using according to format 
-        $data['id']=$score->id;
-        $data['user_id']=$score->user_id;
-        $data['created_at']=$score->created_at;
-        $data['updated_at']=$score->updated_at;
-        $data['tota;_score']=$total_score;
-        $data['user'] = array('id' => $score->user_id, 'name'=>$user->name);
-        $leader_board[]=$data;
-      }
+     \DB::statement("SET SQL_MODE=''");
+
+     $leader_board = Score::select('id','user_id','created_at','updated_at',DB::raw('SUM(score) as total_score'))->with('user')->groupBy('user_id')->get();
         
       return response()->json(['success'=>true,"leaderboard" => $leader_board]); 
     }
